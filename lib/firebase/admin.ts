@@ -21,7 +21,13 @@ function getAdminApp(): App {
       projectId,
       clientEmail,
       // .env files encode newlines as literal \n — restore them here.
-      privateKey: privateKey.replace(/\\n/g, "\n"),
+      // Also strip any accidental quotes or commas from JSON copy-pasting.
+      privateKey: privateKey
+        .replace(/\\n/g, "\n")
+        .replace(/^["']/, "")
+        .replace(/["']$/, "")
+        .replace(/,$/, "")
+        .replace(/["']$/, ""),
     }),
   });
 }

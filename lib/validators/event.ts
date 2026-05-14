@@ -5,7 +5,14 @@ export const createEventSchema = z.object({
   excerpt: z.string().min(1, "Excerpt is required").max(500),
   content: z.string().min(1, "Content is required"),
   bannerImageUrl: z.string().url("Invalid banner image URL"),
-  gallery: z.array(z.string().url("Invalid gallery image URL")).default([]),
+  gallery: z.preprocess(
+    (val) => {
+      if (typeof val === "string") return val.split(",").map((s) => s.trim()).filter(Boolean);
+      if (Array.isArray(val)) return val;
+      return [];
+    },
+    z.array(z.string().url("Invalid gallery image URL"))
+  ).default([]),
 });
 
 export const updateEventSchema = createEventSchema.partial();

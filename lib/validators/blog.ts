@@ -6,7 +6,14 @@ export const createBlogSchema = z.object({
   content: z.string().min(1, "Content is required"),
   coverImageUrl: z.string().url("Invalid cover image URL"),
   coverImageAlt: z.string().min(1, "Cover image alt text is required").max(200),
-  tags: z.array(z.string().min(1)).default([]),
+  tags: z.preprocess(
+    (val) => {
+      if (typeof val === "string") return val.split(",").map((s) => s.trim()).filter(Boolean);
+      if (Array.isArray(val)) return val;
+      return [];
+    },
+    z.array(z.string().min(1))
+  ).default([]),
   authorName: z.string().min(1, "Author name is required").max(100),
   publishedAt: z.string().datetime({ offset: true }).nullable().optional(),
 });
