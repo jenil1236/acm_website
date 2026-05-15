@@ -11,7 +11,7 @@ const socialLinksSchema = z
 export const createTeamMemberSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   role: z.string().min(1, "Role is required").max(100),
-  year: z.number().int().min(1).max(6),
+  year: z.number().int().min(2000).max(2100),
   photoUrl: z.string().url("Invalid photo URL"),
   order: z.number().int().min(0).default(0),
   socialLinks: socialLinksSchema,

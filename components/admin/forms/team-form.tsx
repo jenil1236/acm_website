@@ -37,7 +37,7 @@ export function TeamForm({ initialData, isEdit }: TeamFormProps) {
     defaultValues: {
       name: initialData?.name || "",
       role: initialData?.role || "",
-      year: initialData?.year || 1,
+      year: initialData?.year || new Date().getFullYear(),
       photoUrl: initialData?.photoUrl || "",
       order: initialData?.order ?? 0,
       socialLinks: {
@@ -107,7 +107,7 @@ export function TeamForm({ initialData, isEdit }: TeamFormProps) {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="year">Year (1-6)</Label>
+                <Label htmlFor="year">Graduation Year (e.g. 2026)</Label>
                 <Input type="number" id="year" disabled={isLoading} {...register("year", { valueAsNumber: true })} />
                 {errors.year && <p className="text-sm text-destructive">{errors.year.message}</p>}
               </div>

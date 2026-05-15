@@ -6,6 +6,7 @@ export interface Event {
   content: string;
   bannerImageUrl: string;
   gallery: string[]; // array of image URLs
+  date: string; // The explicit date of the event
   createdAt: string;
   updatedAt: string;
 }

@@ -6,6 +6,8 @@ import { ArrowLeft, Calendar, Images } from "lucide-react";
 import { getEventBySlug, getEvents } from "@/lib/api/public";
 import { FadeReveal } from "@/components/animations/FadeReveal";
 import { formatDistanceToNow } from "date-fns";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -63,7 +65,7 @@ export default async function EventDetailPage({ params }: Props) {
         <FadeReveal>
           <div className="flex items-center gap-2 text-xs text-slate-600 font-body mb-4">
             <Calendar size={12} />
-            {formatDistanceToNow(new Date(event.createdAt), { addSuffix: true })}
+            {formatDistanceToNow(new Date(event.date || event.createdAt), { addSuffix: true })}
           </div>
           <h1 className="text-4xl sm:text-5xl font-display font-bold text-white leading-tight mb-6">
             {event.title}
@@ -76,10 +78,11 @@ export default async function EventDetailPage({ params }: Props) {
         {/* Content */}
         {event.content && (
           <FadeReveal delay={0.1}>
-            <div
-              className="prose-acm mb-14"
-              dangerouslySetInnerHTML={{ __html: event.content }}
-            />
+            <div className="prose-acm mb-14">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {event.content}
+              </ReactMarkdown>
+            </div>
           </FadeReveal>
         )}
 

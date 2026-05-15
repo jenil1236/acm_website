@@ -60,7 +60,7 @@ export default async function TeamPage() {
                 <div className="flex items-center gap-4 mb-10">
                   <div className="h-px flex-1 bg-gradient-to-r from-violet-500/30 to-transparent" />
                   <span className="text-sm font-heading font-medium text-violet-400 tracking-widest px-4 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5">
-                    {year} – {year + 1}
+                    Class of {year}
                   </span>
                   <div className="h-px flex-1 bg-gradient-to-l from-violet-500/30 to-transparent" />
                 </div>

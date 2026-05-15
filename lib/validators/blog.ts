@@ -15,7 +15,9 @@ export const createBlogSchema = z.object({
     z.array(z.string().min(1))
   ).default([]),
   authorName: z.string().min(1, "Author name is required").max(100),
-  publishedAt: z.string().datetime({ offset: true }).nullable().optional(),
+  publishedAt: z.string()
+    .refine((val) => !isNaN(Date.parse(val)), "Invalid date format")
+    .nullable().optional(),
 });
 
 export const updateBlogSchema = createBlogSchema.partial();

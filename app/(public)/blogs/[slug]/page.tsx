@@ -6,6 +6,8 @@ import { ArrowLeft, BookOpen, Tag } from "lucide-react";
 import { getBlogBySlug, getBlogs } from "@/lib/api/public";
 import { FadeReveal } from "@/components/animations/FadeReveal";
 import { format } from "date-fns";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -91,10 +93,11 @@ export default async function BlogDetailPage({ params }: Props) {
 
         {/* Content */}
         <FadeReveal delay={0.2}>
-          <div
-            className="prose-acm max-w-none"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
-          />
+          <div className="prose-acm max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {blog.content}
+            </ReactMarkdown>
+          </div>
         </FadeReveal>
       </article>
     </div>

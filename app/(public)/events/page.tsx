@@ -73,7 +73,7 @@ export default async function EventsPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-slate-600 font-body flex items-center gap-1">
                         <Calendar size={11} />
-                        {formatDistanceToNow(new Date(event.createdAt), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(event.date || event.createdAt), { addSuffix: true })}
                       </span>
                       <span className="text-xs text-fuchsia-400 font-heading flex items-center gap-1 group-hover:gap-2 transition-all">
                         View <ArrowRight size={11} />

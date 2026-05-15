@@ -72,6 +72,10 @@ export default function TeamPage() {
       header: "Role",
     },
     {
+      accessorKey: "year",
+      header: "Graduation Year",
+    },
+    {
       accessorKey: "order",
       header: "Display Order",
     },

@@ -13,6 +13,7 @@ export const createEventSchema = z.object({
     },
     z.array(z.string().url("Invalid gallery image URL"))
   ).default([]),
+  date: z.string().refine((val) => !isNaN(Date.parse(val)), "Invalid date format"),
 });
 
 export const updateEventSchema = createEventSchema.partial();

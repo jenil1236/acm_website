@@ -72,6 +72,15 @@ export function ImageUpload({ value, onChange, disabled, multiple }: ImageUpload
     ? (Array.isArray(value) ? value : (typeof value === 'string' && value ? [value] : [])) 
     : (typeof value === "string" && value ? [value] : []);
 
+  const [manualInput, setManualInput] = useState("");
+
+  const handleAddManual = () => {
+    if (manualInput.trim()) {
+      onChange([...urls, manualInput.trim()]);
+      setManualInput("");
+    }
+  };
+
   return (
     <div className="space-y-4 w-full">
       <div className="flex flex-wrap gap-4">
@@ -114,16 +123,29 @@ export function ImageUpload({ value, onChange, disabled, multiple }: ImageUpload
       <div className="flex items-center gap-2 mt-2">
         <span className="text-sm font-medium whitespace-nowrap">Or provide URL manually:</span>
         {multiple ? (
-          <Input 
-            value={urls.join(", ")} 
-            onChange={(e) => {
-              const val = e.target.value;
-              onChange(val.split(",").map(v => v.trim()).filter(Boolean));
-            }}
-            disabled={disabled || isUploading}
-            placeholder="https://..."
-            className="flex-1"
-          />
+          <div className="flex flex-1 gap-2">
+            <Input 
+              value={manualInput} 
+              onChange={(e) => setManualInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddManual();
+                }
+              }}
+              disabled={disabled || isUploading}
+              placeholder="https://... (Press Enter to add)"
+              className="flex-1"
+            />
+            <Button 
+              type="button" 
+              onClick={handleAddManual}
+              disabled={disabled || isUploading || !manualInput.trim()}
+              variant="secondary"
+            >
+              Add
+            </Button>
+          </div>
         ) : (
           <Input 
             value={typeof value === 'string' ? value : ''} 

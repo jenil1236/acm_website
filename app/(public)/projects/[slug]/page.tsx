@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Code, Layers } from "lucide-react";
 import { getProjectBySlug, getProjects } from "@/lib/api/public";
 import { FadeReveal } from "@/components/animations/FadeReveal";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -87,7 +89,11 @@ export default async function ProjectDetailPage({ params }: Props) {
 
         {project.description && (
           <FadeReveal delay={0.15}>
-            <div className="prose-acm" dangerouslySetInnerHTML={{ __html: project.description }} />
+            <div className="prose-acm max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {project.description}
+              </ReactMarkdown>
+            </div>
           </FadeReveal>
         )}
       </div>

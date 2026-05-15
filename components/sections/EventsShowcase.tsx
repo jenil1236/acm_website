@@ -27,7 +27,7 @@ export function EventsShowcase({ events }: EventsShowcaseProps) {
             </FadeReveal>
             <FadeReveal delay={0.1}>
               <h2 className="text-4xl sm:text-5xl font-display font-bold text-white leading-tight">
-                Upcoming <GradientText variant="aurora">Events.</GradientText>
+                Our <GradientText variant="aurora">Events.</GradientText>
               </h2>
             </FadeReveal>
           </div>
@@ -80,7 +80,7 @@ export function EventsShowcase({ events }: EventsShowcaseProps) {
                     </p>
                     <div className="flex items-center gap-1.5 text-xs text-slate-600 font-body">
                       <Calendar size={12} />
-                      {formatDistanceToNow(new Date(event.createdAt), { addSuffix: true })}
+                      {formatDistanceToNow(new Date(event.date || event.createdAt), { addSuffix: true })}
                     </div>
                   </div>
                 </Link>

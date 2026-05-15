@@ -41,6 +41,7 @@ export function EventForm({ initialData, isEdit }: EventFormProps) {
       content: initialData?.content || "",
       bannerImageUrl: initialData?.bannerImageUrl || "",
       gallery: initialData?.gallery || [],
+      date: initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
     },
   });
 
@@ -77,6 +78,12 @@ export function EventForm({ initialData, isEdit }: EventFormProps) {
             <Label htmlFor="title">Event Title</Label>
             <Input id="title" disabled={isLoading} {...register("title")} />
             {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="date">Event Date</Label>
+            <Input id="date" type="date" disabled={isLoading} {...register("date")} />
+            {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
           </div>
 
           <div className="space-y-2">

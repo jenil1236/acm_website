@@ -18,6 +18,7 @@ function docToEvent(id: string, data: FirebaseFirestore.DocumentData): Event {
     content: data.content,
     bannerImageUrl: data.bannerImageUrl,
     gallery: data.gallery ?? [],
+    date: data.date ?? "",
     createdAt: toISOString(data.createdAt as Timestamp) ?? "",
     updatedAt: toISOString(data.updatedAt as Timestamp) ?? "",
   };
@@ -28,7 +29,7 @@ export async function findAllEvents(
   offset: number,
 ): Promise<{ items: Event[]; total: number }> {
   const [snap, countSnap] = await Promise.all([
-    col().orderBy("createdAt", "desc").limit(limit).offset(offset).get(),
+    col().orderBy("date", "desc").limit(limit).offset(offset).get(),
     col().count().get(),
   ]);
   return {
