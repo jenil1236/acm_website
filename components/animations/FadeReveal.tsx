@@ -18,7 +18,7 @@ export function FadeReveal({
   delay = 0,
   duration = 0.8,
   y = 30,
-  once = true,
+  once = false,
 }: FadeRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 

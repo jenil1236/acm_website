@@ -1,5 +1,13 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FadeReveal } from "@/components/animations/FadeReveal";
 import { GradientText } from "@/components/ui/GradientText";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const STATS = [
   { value: "1961", label: "Founded" },
@@ -9,46 +17,57 @@ const STATS = [
 ];
 
 export function AboutSVNITSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        imageRef.current,
+        { y: -30, scale: 1.1 },
+        {
+          y: 30,
+          scale: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative py-32 bg-[#05010f] overflow-hidden">
+    <section className="relative py-32 bg-[#05010f] overflow-hidden" ref={containerRef}>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-800/6 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container-acm">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left: wireframe illustration */}
+          {/* Left: SVNIT Image with Parallax */}
           <FadeReveal className="relative flex items-center justify-center">
-            <div className="relative w-full max-w-sm mx-auto">
-              {/* Animated building wireframe */}
-              <svg viewBox="0 0 320 280" fill="none" className="w-full opacity-80">
-                {/* Ground */}
-                <line x1="20" y1="260" x2="300" y2="260" stroke="#4f46e5" strokeWidth="1" />
-                {/* Main building */}
-                <rect x="60" y="80" width="200" height="180" stroke="#7c3aed" strokeWidth="1" fill="rgba(124,58,237,0.03)" strokeDasharray="6 3" />
-                {/* Windows */}
-                {[0,1,2].map(row => [0,1,2,3].map(col => (
-                  <rect key={`${row}-${col}`} x={75 + col * 46} y={100 + row * 50} width="30" height="25"
-                    stroke="#a78bfa" strokeWidth="0.7" fill="rgba(167,139,250,0.05)" />
-                )))}
-                {/* Entrance */}
-                <rect x="135" y="200" width="50" height="60" stroke="#e879f9" strokeWidth="0.8" fill="rgba(232,121,249,0.05)" />
-                {/* Roof detail */}
-                <line x1="60" y1="80" x2="160" y2="30" stroke="#7c3aed" strokeWidth="0.8" strokeDasharray="4 4" />
-                <line x1="260" y1="80" x2="160" y2="30" stroke="#7c3aed" strokeWidth="0.8" strokeDasharray="4 4" />
-                {/* Grid overlay */}
-                {[0,1,2].map(i => (
-                  <line key={i} x1="60" y1={80 + i * 60} x2="260" y2={80 + i * 60} stroke="#4f46e5" strokeWidth="0.3" strokeDasharray="3 3" />
-                ))}
-                {/* Decorative circles */}
-                <circle cx="160" cy="30" r="8" stroke="#e879f9" strokeWidth="0.8" fill="none" />
-                <circle cx="160" cy="30" r="3" fill="#e879f9" opacity="0.6" />
-                {/* Corner accents */}
-                <path d="M60 80 L60 95 M60 80 L75 80" stroke="#a3e635" strokeWidth="1.5" />
-                <path d="M260 80 L260 95 M260 80 L245 80" stroke="#a3e635" strokeWidth="1.5" />
-              </svg>
-
+            <div className="relative w-full max-w-md mx-auto aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_0_40px_rgba(124,58,237,0.15)] group">
+              <Image
+                ref={imageRef}
+                src="/svnit.png"
+                alt="SVNIT Campus"
+                fill
+                className="object-cover transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 500px"
+              />
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#05010f]/80 via-transparent to-violet-900/20" />
+              
               {/* Floating badge */}
-              <div className="absolute -top-4 -right-4 px-3 py-1.5 rounded-lg bg-violet-500/20 border border-violet-500/30 backdrop-blur-sm">
-                <span className="text-xs text-violet-300 font-heading font-medium">NIT Surat</span>
+              <div className="absolute bottom-6 left-6 px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 group-hover:bg-violet-900/40 group-hover:border-violet-500/30 transition-all duration-300">
+                <span className="text-sm text-white font-heading font-medium flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
+                  NIT Surat
+                </span>
               </div>
             </div>
           </FadeReveal>
