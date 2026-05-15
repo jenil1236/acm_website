@@ -1,21 +1,42 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Sora, Space_Grotesk, Inter } from "next/font/google";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ACM NIT Surat - Admin Portal",
-  description: "Admin backend for managing the ACM NIT Surat website.",
+  title: {
+    default: "ACM SVNIT Surat — Engineering Intelligent Communities",
+    template: "%s | ACM SVNIT Surat",
+  },
+  description:
+    "ACM SVNIT Surat is the official student chapter of the Association for Computing Machinery at Sardar Vallabhbhai National Institute of Technology, Surat. Building the future of computing.",
+  keywords: ["ACM", "SVNIT", "Surat", "NIT Surat", "computer science", "tech community", "AI/ML", "hackathon"],
+  openGraph: {
+    title: "ACM SVNIT Surat",
+    description: "Engineering intelligent communities at NIT Surat.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -27,9 +48,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${sora.variable} ${spaceGrotesk.variable} ${inter.variable}`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-screen antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

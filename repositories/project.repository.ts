@@ -49,6 +49,13 @@ export async function findProjectById(id: string): Promise<Project> {
   return docToProject(doc.id, doc.data()!);
 }
 
+export async function findProjectBySlug(slug: string): Promise<Project | null> {
+  const snap = await col().where("slug", "==", slug).limit(1).get();
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return docToProject(d.id, d.data());
+}
+
 export async function createProject(
   input: CreateProjectInput,
 ): Promise<Project> {

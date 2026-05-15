@@ -45,6 +45,13 @@ export async function findBlogById(id: string): Promise<Blog> {
   return docToBlog(doc.id, doc.data()!);
 }
 
+export async function findBlogBySlug(slug: string): Promise<Blog | null> {
+  const snap = await col().where("slug", "==", slug).limit(1).get();
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return docToBlog(d.id, d.data());
+}
+
 export async function createBlog(input: CreateBlogInput): Promise<Blog> {
   const slug = await generateUniqueSlug(input.title, COLLECTIONS.BLOGS);
   const now = FieldValue.serverTimestamp();

@@ -1,0 +1,30 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+export function ScrollProgress() {
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const update = () => {
+      const el = barRef.current;
+      if (!el) return;
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      el.style.width = `${progress}%`;
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  return (
+    <div className="fixed top-0 left-0 right-0 h-[2px] z-[9999] bg-transparent pointer-events-none">
+      <div
+        ref={barRef}
+        className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-400 transition-none"
+        style={{ width: "0%" }}
+      />
+    </div>
+  );
+}

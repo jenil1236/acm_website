@@ -16,6 +16,10 @@ export async function getProjectById(id: string) {
   return repo.findProjectById(id);
 }
 
+export async function getProjectBySlug(slug: string) {
+  return repo.findProjectBySlug(slug);
+}
+
 export async function createProject(input: CreateProjectInput) {
   return repo.createProject(input);
 }

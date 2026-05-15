@@ -43,6 +43,13 @@ export async function findEventById(id: string): Promise<Event> {
   return docToEvent(doc.id, doc.data()!);
 }
 
+export async function findEventBySlug(slug: string): Promise<Event | null> {
+  const snap = await col().where("slug", "==", slug).limit(1).get();
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return docToEvent(d.id, d.data());
+}
+
 export async function createEvent(input: CreateEventInput): Promise<Event> {
   const slug = await generateUniqueSlug(input.title, COLLECTIONS.EVENTS);
   const now = FieldValue.serverTimestamp();

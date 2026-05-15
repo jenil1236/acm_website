@@ -13,6 +13,10 @@ export async function getBlogById(id: string) {
   return repo.findBlogById(id);
 }
 
+export async function getBlogBySlug(slug: string) {
+  return repo.findBlogBySlug(slug);
+}
+
 export async function createBlog(input: CreateBlogInput) {
   return repo.createBlog(input);
 }

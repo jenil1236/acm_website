@@ -14,6 +14,10 @@ export async function getContactMessageById(id: string) {
   return repo.findContactById(id);
 }
 
+export async function createContactMessage(input: import("@/lib/validators/contact").CreateContactInput) {
+  return repo.createContact(input);
+}
+
 export async function updateContactStatus(
   id: string,
   input: UpdateContactStatusInput,

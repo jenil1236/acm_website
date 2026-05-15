@@ -13,6 +13,10 @@ export async function getEventById(id: string) {
   return repo.findEventById(id);
 }
 
+export async function getEventBySlug(slug: string) {
+  return repo.findEventBySlug(slug);
+}
+
 export async function createEvent(input: CreateEventInput) {
   return repo.createEvent(input);
 }
