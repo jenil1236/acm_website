@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   description: "The official ACM student chapter at SVNIT Surat. Join us for events, projects, and research.",
 };
 
+import { ShowcasePinWrapper } from "@/components/sections/ShowcasePinWrapper";
+
 export default async function HomePage() {
   const [events, projects, blogs] = await Promise.allSettled([
     getEvents(6),
@@ -29,9 +31,11 @@ export default async function HomePage() {
       <AboutSVNITSection />
       <AboutACMGlobalSection />
       <DomainsSection />
-      <EventsShowcase events={events.status === "fulfilled" ? events.value : []} />
-      <ProjectsShowcase projects={projects.status === "fulfilled" ? projects.value : []} />
-      <BlogsSection blogs={blogs.status === "fulfilled" ? blogs.value : []} />
+      <ShowcasePinWrapper>
+        <EventsShowcase events={events.status === "fulfilled" ? events.value : []} />
+        <ProjectsShowcase projects={projects.status === "fulfilled" ? projects.value : []} />
+        <BlogsSection blogs={blogs.status === "fulfilled" ? blogs.value : []} />
+      </ShowcasePinWrapper>
       <CTASection />
     </>
   );

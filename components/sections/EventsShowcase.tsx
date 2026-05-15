@@ -14,7 +14,7 @@ export function EventsShowcase({ events }: EventsShowcaseProps) {
   const preview = events.slice(0, 6);
 
   return (
-    <section className="relative py-32 bg-[#0b0520] overflow-hidden">
+    <section className="relative py-20 lg:py-0 lg:h-screen flex flex-col justify-center bg-[#0b0520] overflow-hidden">
       <div className="absolute top-0 right-0 w-80 h-80 bg-fuchsia-600/6 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="container-acm">

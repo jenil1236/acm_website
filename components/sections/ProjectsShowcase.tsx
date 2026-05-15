@@ -13,7 +13,7 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
   const preview = projects.slice(0, 4);
 
   return (
-    <section className="relative py-32 bg-[#05010f] overflow-hidden">
+    <section className="relative py-20 lg:py-0 lg:h-screen flex flex-col justify-center bg-[#05010f] overflow-hidden">
       <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-lime-600/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="container-acm">

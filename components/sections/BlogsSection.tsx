@@ -9,7 +9,7 @@ import { formatDistanceToNow } from "date-fns";
 export function BlogsSection({ blogs }: { blogs: Blog[] }) {
   const preview = blogs.slice(0, 3);
   return (
-    <section className="relative py-32 bg-[#05010f] overflow-hidden">
+    <section className="relative py-20 lg:py-0 lg:h-screen flex flex-col justify-center bg-[#05010f] overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(124,58,237,0.06)_0%,transparent_60%)] pointer-events-none" />
       <div className="container-acm">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
