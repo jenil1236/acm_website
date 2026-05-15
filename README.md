@@ -296,9 +296,6 @@ npm run build
 npm run start          # Runs on port 3000 by default
 ```
 
-Use a reverse proxy (Nginx / Caddy) to expose port 3000 with HTTPS.
-
----
 
 ## Contributing
 
