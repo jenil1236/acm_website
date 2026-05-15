@@ -6,6 +6,7 @@ The official website of the **ACM Student Chapter at SVNIT Surat**. Built with N
 
 ## Table of Contents
 
+- [Project Description](#project-description)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Features](#features)
@@ -16,6 +17,22 @@ The official website of the **ACM Student Chapter at SVNIT Surat**. Built with N
 - [Architecture](#architecture)
 - [Scripts](#scripts)
 - [Deployment](#deployment)
+- [Future Scope](#future-scope)
+- [Skills Matrix](#skills-matrix)
+
+---
+
+## Project Description
+
+The ACM SVNIT website is a modern, dynamic platform designed to showcase the student chapter's events, projects, and blogs, while providing a seamless administrative experience. 
+
+**Architecture**: The application follows a robust client-server architecture built on **Next.js 16 (App Router)**. Public-facing pages are optimized using React Server Components for performance and SEO, fetching data securely through server-side helper functions. The backend relies on **Firebase Firestore**, interfaced entirely through a dedicated Repository layer to encapsulate data access logic and ensure separation of concerns. The Admin Dashboard is protected by stateless, encrypted session cookies using `iron-session`, and communicates with the database via authenticated REST API routes.
+
+**Design Choices**: 
+- **Next.js & App Router**: Chosen for its seamless full-stack capabilities, static site generation, and optimized routing, which are crucial for a content-heavy chapter website.
+- **Firebase Firestore**: Selected for its scalable NoSQL structure and ease of integration without managing complex relational database infrastructure.
+- **Tailwind CSS & Framer Motion**: Used to create a highly responsive, modern, and engaging user interface with smooth transitions.
+- **Custom Admin Dashboard**: Instead of relying on a third-party headless CMS, a custom dashboard was built to provide tailored, strict schema adherence (using Zod) and a specialized, frictionless user experience for chapter executives.
 
 ---
 
@@ -296,6 +313,27 @@ npm run build
 npm run start          # Runs on port 3000 by default
 ```
 
+
+## Future Scope
+
+- **User Authentication**: Allow SVNIT students to create profiles, track their participation in events, and save favorite blogs or projects.
+- **Event Registration System**: Direct integration for event registrations with automated ticketing, email confirmations, and QR code check-ins.
+- **Dynamic Certificate Generation**: Automated generation and distribution of participation certificates for event attendees.
+
+---
+
+## Skills Matrix
+
+| Domain | Technologies / Frameworks / Tools |
+|---|---|
+| Frontend | React, Next.js, Tailwind CSS, Framer Motion, GSAP, Leaflet, EJS, Bootstrap, HTML, CSS |
+| Backend | Node.js, Express.js, Firebase Firestore, MongoDB, Mongoose, MySQL |
+| AI | faster-whisper, LLM Integration |
+| ML | Python, Scikit-learn, Data Analysis |
+| DevOps | Git, GitHub Actions, Vercel, Docker |
+| Other | TypeScript, JavaScript, REST APIs, Zod |
+
+---
 
 ## Contributing
 

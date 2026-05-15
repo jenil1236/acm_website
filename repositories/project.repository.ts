@@ -4,6 +4,7 @@ import { COLLECTIONS } from "@/lib/constants/collections";
 import { toISOString } from "@/lib/utils/dates";
 import { generateUniqueSlug } from "@/lib/utils/slug";
 import { AppError } from "@/lib/utils/errors";
+import { incrementMetric } from "./metrics.repository";
 import type { Project } from "@/types/project";
 import type {
   CreateProjectInput,
@@ -62,6 +63,7 @@ export async function createProject(
   const slug = await generateUniqueSlug(input.title, COLLECTIONS.PROJECTS);
   const now = FieldValue.serverTimestamp();
   const ref = await col().add({ ...input, slug, createdAt: now, updatedAt: now });
+  await incrementMetric("projects", 1);
   const created = await ref.get();
   return docToProject(created.id, created.data()!);
 }
@@ -95,4 +97,5 @@ export async function deleteProject(id: string): Promise<void> {
   const doc = await col().doc(id).get();
   if (!doc.exists) throw new AppError("Project not found.", 404);
   await col().doc(id).delete();
+  await incrementMetric("projects", -1);
 }

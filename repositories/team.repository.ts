@@ -4,6 +4,7 @@ import { COLLECTIONS } from "@/lib/constants/collections";
 import { toISOString } from "@/lib/utils/dates";
 import { generateUniqueSlug } from "@/lib/utils/slug";
 import { AppError } from "@/lib/utils/errors";
+import { incrementMetric } from "./metrics.repository";
 import type { TeamMember } from "@/types/team";
 import type {
   CreateTeamMemberInput,
@@ -56,6 +57,7 @@ export async function createTeamMember(
   const slug = await generateUniqueSlug(input.name, COLLECTIONS.TEAM_MEMBERS);
   const now = FieldValue.serverTimestamp();
   const ref = await col().add({ ...input, slug, createdAt: now, updatedAt: now });
+  await incrementMetric("team", 1);
   const created = await ref.get();
   return docToMember(created.id, created.data()!);
 }
@@ -89,4 +91,5 @@ export async function deleteTeamMember(id: string): Promise<void> {
   const doc = await col().doc(id).get();
   if (!doc.exists) throw new AppError("Team member not found.", 404);
   await col().doc(id).delete();
+  await incrementMetric("team", -1);
 }

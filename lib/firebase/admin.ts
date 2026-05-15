@@ -20,14 +20,7 @@ function getAdminApp(): App {
     credential: cert({
       projectId,
       clientEmail,
-      // .env files encode newlines as literal \n — restore them here.
-      // Also strip any accidental quotes or commas from JSON copy-pasting.
-      privateKey: privateKey
-        .replace(/\\n/g, "\n")
-        .replace(/^["']/, "")
-        .replace(/["']$/, "")
-        .replace(/,$/, "")
-        .replace(/["']$/, ""),
+      privateKey: privateKey.replace(/\\n/g, "\n").replace(/["',]/g, "").trim(),
     }),
   });
 }

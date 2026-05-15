@@ -4,6 +4,7 @@ import { COLLECTIONS } from "@/lib/constants/collections";
 import { CONTACT_STATUSES } from "@/lib/constants/statuses";
 import { toISOString } from "@/lib/utils/dates";
 import { AppError } from "@/lib/utils/errors";
+import { incrementMetric } from "./metrics.repository";
 import type { ContactMessage } from "@/types/contact";
 import type {
   CreateContactInput,
@@ -70,6 +71,7 @@ export async function createContact(
     createdAt: now,
     updatedAt: now,
   });
+  await incrementMetric("contacts", 1);
   const created = await ref.get();
   return docToContact(created.id, created.data()!);
 }
@@ -82,7 +84,15 @@ export async function updateContactStatus(
   const doc = await ref.get();
   if (!doc.exists) throw new AppError("Contact message not found.", 404);
 
+  const currentStatus = doc.data()!.status;
   await ref.update({ status: input.status, updatedAt: FieldValue.serverTimestamp() });
+
+  if (currentStatus === CONTACT_STATUSES.UNREAD && input.status !== CONTACT_STATUSES.UNREAD) {
+    await incrementMetric("contacts", -1);
+  } else if (currentStatus !== CONTACT_STATUSES.UNREAD && input.status === CONTACT_STATUSES.UNREAD) {
+    await incrementMetric("contacts", 1);
+  }
+
   const updated = await ref.get();
   return docToContact(updated.id, updated.data()!);
 }
@@ -90,5 +100,9 @@ export async function updateContactStatus(
 export async function deleteContact(id: string): Promise<void> {
   const doc = await col().doc(id).get();
   if (!doc.exists) throw new AppError("Contact message not found.", 404);
+  
+  if (doc.data()!.status === CONTACT_STATUSES.UNREAD) {
+    await incrementMetric("contacts", -1);
+  }
   await col().doc(id).delete();
 }

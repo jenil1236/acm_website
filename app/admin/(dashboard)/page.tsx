@@ -40,21 +40,15 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        // Fetch the first page of each collection with limit=1 just to get the total count
-        const [blogsRes, eventsRes, projectsRes, teamRes, contactsRes] = await Promise.all([
-          apiClient.get("/blogs?limit=1"),
-          apiClient.get("/events?limit=1"),
-          apiClient.get("/projects?limit=1"),
-          apiClient.get("/team?limit=1"),
-          apiClient.get("/contacts?limit=1&status=unread"),
-        ]);
+        const res = await apiClient.get("/dashboard/metrics");
+        const data = res.data.data;
 
         setMetrics({
-          blogs: blogsRes.data.data.pagination.total || 0,
-          events: eventsRes.data.data.pagination.total || 0,
-          projects: projectsRes.data.data.pagination.total || 0,
-          team: teamRes.data.data.pagination.total || 0,
-          contacts: contactsRes.data.data.pagination.total || 0,
+          blogs: data.blogs || 0,
+          events: data.events || 0,
+          projects: data.projects || 0,
+          team: data.team || 0,
+          contacts: data.contacts || 0,
         });
       } catch (err) {
         toast.error("Failed to load dashboard metrics");

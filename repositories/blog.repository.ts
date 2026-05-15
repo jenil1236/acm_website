@@ -4,6 +4,7 @@ import { COLLECTIONS } from "@/lib/constants/collections";
 import { toISOString } from "@/lib/utils/dates";
 import { generateUniqueSlug } from "@/lib/utils/slug";
 import { AppError } from "@/lib/utils/errors";
+import { incrementMetric } from "./metrics.repository";
 import type { Blog } from "@/types/blog";
 import type { CreateBlogInput, UpdateBlogInput } from "@/lib/validators/blog";
 
@@ -63,6 +64,7 @@ export async function createBlog(input: CreateBlogInput): Promise<Blog> {
     updatedAt: now,
   };
   const ref = await col().add(payload);
+  await incrementMetric("blogs", 1);
   const created = await ref.get();
   return docToBlog(created.id, created.data()!);
 }
@@ -98,4 +100,5 @@ export async function deleteBlog(id: string): Promise<void> {
   const doc = await col().doc(id).get();
   if (!doc.exists) throw new AppError("Blog not found.", 404);
   await col().doc(id).delete();
+  await incrementMetric("blogs", -1);
 }

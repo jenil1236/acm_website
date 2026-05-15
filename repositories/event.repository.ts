@@ -4,6 +4,7 @@ import { COLLECTIONS } from "@/lib/constants/collections";
 import { toISOString } from "@/lib/utils/dates";
 import { generateUniqueSlug } from "@/lib/utils/slug";
 import { AppError } from "@/lib/utils/errors";
+import { incrementMetric } from "./metrics.repository";
 import type { Event } from "@/types/event";
 import type { CreateEventInput, UpdateEventInput } from "@/lib/validators/event";
 
@@ -55,6 +56,7 @@ export async function createEvent(input: CreateEventInput): Promise<Event> {
   const slug = await generateUniqueSlug(input.title, COLLECTIONS.EVENTS);
   const now = FieldValue.serverTimestamp();
   const ref = await col().add({ ...input, slug, createdAt: now, updatedAt: now });
+  await incrementMetric("events", 1);
   const created = await ref.get();
   return docToEvent(created.id, created.data()!);
 }
@@ -84,4 +86,5 @@ export async function deleteEvent(id: string): Promise<void> {
   const doc = await col().doc(id).get();
   if (!doc.exists) throw new AppError("Event not found.", 404);
   await col().doc(id).delete();
+  await incrementMetric("events", -1);
 }
